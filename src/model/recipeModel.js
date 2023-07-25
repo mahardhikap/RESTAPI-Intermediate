@@ -30,8 +30,8 @@ const getRecipeById = async (post) => {
 const postRecipe = async (post) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Post recipe')
-        const {title, image, ingredients, category_id, users_id} = post
-        pool.query(`INSERT INTO recipe (title, image, ingredients, category_id, users_id) VALUES ('${title}', '${image}', '${ingredients}', ${category_id}, ${users_id}) RETURNING *`, (err, results)=>{
+        const {title, image, ingredients, category_id, users_id, img_id} = post
+        pool.query(`INSERT INTO recipe (title, image, ingredients, category_id, users_id, img_id) VALUES ('${title}', '${image}', '${ingredients}', ${category_id}, ${users_id}, '${img_id}') RETURNING *`, (err, results)=>{
             if(!err){
                 resolve(results)
             } else{

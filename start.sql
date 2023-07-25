@@ -1,3 +1,4 @@
+-- Active: 1689922089200@@147.139.210.135@5432@mahar01
 CREATE DATABASE intermediate;
 ALTER DATABASE intermediate SET timezone TO 'Asia/Jakarta';
 
@@ -18,10 +19,11 @@ CREATE TABLE users (
 CREATE TABLE recipe (
     id SERIAL PRIMARY KEY,
     title VARCHAR(64) NOT NULL,
-    image VARCHAR(64),
+    image VARCHAR(256),
     ingredients TEXT NOT NULL,
     category_id INT NOT NULL,
     users_id INT NOT NULL,
+    img_id VARCHAR,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE

@@ -1,6 +1,11 @@
 const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe} = require('../model/recipeModel')
 const {successResponse, errorResponse} = require('../helper/handler')
-// const {getUsersByEmail} = require('../model/usersModel')
+// const cloudinary = require('../utils/cloudinary');
+// const uploader = require('../middleware/multer');
+const cloudinary = require("cloudinary").v2;
+// const path = require("path");
+
+
 
 const recipeController = {
     showRecipeOnly: async (req, res) => {
@@ -42,12 +47,22 @@ const recipeController = {
     postRecipeOnly: async (req, res) => {
         console.log('Control: Running post recipe')
         try {
-          const {title, image, ingredients, category_id} = req.body
+          
+          const {title, ingredients, category_id} = req.body
+          const image = req.file
           let users_id =  req.payload.id
           console.log(users_id)
+
+          // uploader.single('image')
+          const result_up = await cloudinary.uploader.upload(image.path, {
+            use_filename: true,
+            folder: "file-upload"
+          })
+
           let post = {
             title: title,
-            image: image,
+            image: result_up.secure_url,
+            img_id: result_up.public_id,
             ingredients: ingredients,
             category_id: category_id,
             users_id

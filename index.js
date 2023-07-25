@@ -9,6 +9,16 @@ const cors = require('./src/middleware/cors')
 const xssFilters = require('./src/middleware/xssFilters')
 const helmet = require('./src/middleware/helmet')
 
+const cloudinary = require('cloudinary').v2;
+require('dotenv').config()
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY
+});
+
+
 app.use(bodyParser.json())
 app.use(
     bodyParser.urlencoded({
