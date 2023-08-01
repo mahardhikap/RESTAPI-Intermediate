@@ -40,10 +40,9 @@ const register = async (post) => {
     })
 }
 
-const delUserById = async (post) => {
+const delUserById = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Delete users')
-        const {id} = post
         pool.query(`DELETE FROM users WHERE id = ${id} RETURNING *`, (err, results)=>{
             if(!err){
                 resolve(results)

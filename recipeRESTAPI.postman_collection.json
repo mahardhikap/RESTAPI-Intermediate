@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "9dc469af-bd61-4817-856a-132ba7d710e5",
+		"name": "recipeRESTAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26438294"
+	},
+	"item": [
+		{
+			"name": "Get Recipe",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": ""
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": "http://localhost:3000/recipe",
+				"description": "all can get the data recipe with that url"
+			},
+			"response": []
+		},
+		{
+			"name": "Post Recipe (Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiY2FrIiwiZW1haWwiOiJjYWtAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkQ0FEN1ZRbjBWTWlKMzFidmc4cWFsTzhTS3N1NFlMNEc1STVOT003VUhISm5TMFgyWHdMb3EiLCJwaG90byI6ImRlZmF1bHQucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJpYXQiOjE2OTA5MDI3MjJ9.CuIbqYX2pHel5ZWzx2-ACO2jGO5uNVivr-uIaMdiKNA"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Smoke Barbeque Tomahawk Steak",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/ASUS/Pictures/web/tomahawk steak.jpg"
+						},
+						{
+							"key": "ingredients",
+							"value": "daging tomahawk, mrica, garam, barbeque seasoning",
+							"type": "text"
+						},
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "users_id",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "img_id",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://localhost:3000/recipe",
+				"description": "before access post page you need token, token can get from register and you need to login to generate token"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Recipe By ID (Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsInVzZXJuYW1lIjoiY2FrIiwiZW1haWwiOiJjYWtAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkQ0FEN1ZRbjBWTWlKMzFidmc4cWFsTzhTS3N1NFlMNEc1STVOT003VUhISm5TMFgyWHdMb3EiLCJwaG90byI6ImRlZmF1bHQucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJpYXQiOjE2OTA5MDI5NDR9.QP2l_M-uOYUGuAvXDC-LM1nCs50OSuAdddzc_sShGm4"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Burger",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/ASUS/Pictures/download.jpeg"
+						},
+						{
+							"key": "ingredients",
+							"value": "Bread bunch, burger meat, vegetables",
+							"type": "text"
+						},
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:3000/recipe/21",
+				"description": "You can only update post with your id"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Recipe By ID (Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJndWVzdCIsImVtYWlsIjoiZ3Vlc3RAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkM1g1enYxbzE4T3h2S2RjcjMwQjg0T0xuaVNSVmlyU3J4MnY1ZVZlUE9mTDNsYWMwaEo2cmkiLCJwaG90byI6ImRlZmF1bHQucG5nIiwicm9sZXMiOiJtZW1iZXIiLCJpYXQiOjE2OTAzNDQyMjd9.proKPUJmefYlnjTDlLG1WoR5vBdmK4Ub4vyqb-GsR8M"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:3000/recipe/8",
+				"description": "you can delete your recipe by id"
+			},
+			"response": []
+		},
+		{
+			"name": "Recipe Sorted",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/recipe/sorted?sortby=&sort=ASC&page=1&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipe",
+						"sorted"
+					],
+					"query": [
+						{
+							"key": "sortby",
+							"value": ""
+						},
+						{
+							"key": "sort",
+							"value": "ASC"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				},
+				"description": "visitor can see all recipe sorted"
+			},
+			"response": []
+		},
+		{
+			"name": "Recipe Search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/recipe/searched?search=spe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recipe",
+						"searched"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "spe"
+						}
+					]
+				},
+				"description": "visitor can see all recipe by search title"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users Admin Only (Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJkaGlrYSIsImVtYWlsIjoiZGhpa2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkdWk4MzJDS1REOEhXaFhtZzNHSEgwLmhSeHBhVUR6NHkwaHpFemZieXQ0U2UvaGppU0YyenkiLCJwaG90byI6ImRlZmF1bHQucG5nIiwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTY5MDg5NTczOH0.HFEEbNxjp1ol8PqSjed0ZKGjob73pA_Bhrhp-aNsw28"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/users",
+				"description": "Admin can see who's registering on web"
+			},
+			"response": []
+		},
+		{
+			"name": "Register Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": ""
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "cak",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "cak@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "cak",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "roles",
+							"value": "",
+							"description": "admin, member (default member)",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": "http://localhost:3000/users",
+				"description": "Visitor can register web"
+			},
+			"response": []
+		},
+		{
+			"name": "Login (Get Token)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "cak@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "cak",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:3000/login",
+				"description": "Login to get token access all features"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recipe By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/recipebyid/7",
+				"description": "Visitors can see recipe by id"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Users Admin Only (Token)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJkaGlrYSIsImVtYWlsIjoiZGhpa2FAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkdWk4MzJDS1REOEhXaFhtZzNHSEgwLmhSeHBhVUR6NHkwaHpFemZieXQ0U2UvaGppU0YyenkiLCJwaG90byI6ImRlZmF1bHQucG5nIiwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTY5MDkwMDI3OX0.MJ_IsSaZxtqTA7paqhZhVkvYAEDdmY7qyulf61m3AvQ"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:3000/users/16",
+				"description": "Only admin can delete member"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/category",
+				"description": "static category, theres 4 category available on website"
+			},
+			"response": []
+		}
+	]
+}

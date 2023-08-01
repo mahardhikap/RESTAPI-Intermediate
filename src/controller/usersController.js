@@ -89,18 +89,12 @@ const usersController = {
         console.log('Control: Running delete users')
         try {
           const {id} = req.params
-        
-          let post = {
-            id: id
-          }
-
-          let users_id = req.payload.roles
-
-          if(users_id != 'admin'){
+          let users_role = req.payload.roles
+          if(users_role !== 'admin'){
             return res.status(404).json(errorResponse('Anda tidak memiliki izin, admin only!', 404))
           }
 
-          const result = await delUserById(post);
+          const result = await delUserById(id);
           if (result.rowCount > 0) {
             console.log(result.rows);
             return res.status(200).json(successResponse(result.rows, 'Berhasil'));

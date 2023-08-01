@@ -13,10 +13,9 @@ const getRecipe = async () => {
     })
 }
 
-const getRecipeById = async (post) => {
+const getRecipeById = async (id) => {
     return new Promise((resolve,reject)=>{
     console.log('Model: Get recipe by ID')
-    const {id} = post
         pool.query(`SELECT * FROM recipe WHERE id = ${id}`,(err,results)=>{
             if(!err){
                 resolve(results)
@@ -44,8 +43,8 @@ const postRecipe = async (post) => {
 const putRecipeById = async (post) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Put recipe')
-        const {title, image, ingredients, category_id, id} = post
-        pool.query(`UPDATE recipe SET title = '${title}', image = '${image}', ingredients = '${ingredients}', category_id = ${category_id} WHERE id = ${id} RETURNING *`, (err, results)=>{
+        const {title, image, ingredients, category_id, img_id, id} = post
+        pool.query(`UPDATE recipe SET title = '${title}', image = '${image}', ingredients = '${ingredients}', category_id = ${category_id}, img_id = '${img_id}' WHERE id = ${id} RETURNING *`, (err, results)=>{
             if(!err){
                 resolve(results)
             } else{
@@ -55,10 +54,9 @@ const putRecipeById = async (post) => {
     })
 }
 
-const delRecipeById = async (post) => {
+const delRecipeById = async (id) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Delete recipe')
-        const {id} = post
         pool.query(`DELETE FROM recipe WHERE id = ${id} RETURNING *`, (err, results)=>{
             if(!err){
                 resolve(results)
@@ -87,10 +85,9 @@ const sortRecipe = async (post) => {
     })
 }
 
-const searchRecipe = async (post) => {
+const searchRecipe = async (search) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Search recipe')
-        const {search} = post
         pool.query(`SELECT recipe.id, recipe.title, recipe.image, recipe.ingredients, category.name AS category, users.username, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE title ILIKE '%${search}%'`, (err, results)=>{
             if(!err){
                 resolve(results)

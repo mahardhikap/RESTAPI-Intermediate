@@ -1,9 +1,6 @@
 const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe} = require('../model/recipeModel')
 const {successResponse, errorResponse} = require('../helper/handler')
-// const cloudinary = require('../utils/cloudinary');
-// const uploader = require('../middleware/multer');
-const cloudinary = require("cloudinary").v2;
-// const path = require("path");
+const cloudinary = require('../config/cloudinary');
 
 
 
@@ -28,10 +25,7 @@ const recipeController = {
         console.log('Control: Running get recipe')
         try {
         const {id} = req.params
-        let post = {
-            id: id
-        }
-          const result = await getRecipeById(post);
+          const result = await getRecipeById(id);
           if (result.rowCount > 0) {
               console.log(result.rows);
               return res.status(200).json(successResponse(result.rows, 'Berhasil'));
@@ -49,15 +43,11 @@ const recipeController = {
         try {
           
           const {title, ingredients, category_id} = req.body
-          const image = req.file
           let users_id =  req.payload.id
           console.log(users_id)
 
-          // uploader.single('image')
-          const result_up = await cloudinary.uploader.upload(image.path, {
-            use_filename: true,
-            folder: "file-upload"
-          })
+          const result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
+          console.log(result_up)
 
           let post = {
             title: title,
@@ -84,28 +74,34 @@ const recipeController = {
         console.log('Control: Running put recipe')
         try {
         const {id} = req.params
-        const {title, image, ingredients, category_id} = req.body
+        const {title, ingredients, category_id} = req.body
+
+        let dataRecipe =  await getRecipeById(id)
+        let result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
+        if(result_up){
+          await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id)
+        }
 
         let post = {
           id: id,
           title: title,
-          image: image,
+          image: result_up.secure_url,
+          img_id: result_up.public_id,
           ingredients: ingredients,
           category_id: category_id
         }
 
-        let dataRecipe =  await getRecipeById(post)
         let users_id = req.payload.id
+
 
         // console.log(dataRecipe.rows[0].users_id)
         // console.log(users_id)
           
-        
         if(users_id != dataRecipe.rows[0].users_id){
             return res.status(404).json(errorResponse('Ini bukan post anda', 404))
         }
 
-          const result = await putRecipeById(post);
+        const result = await putRecipeById(post);
           if (result.rowCount > 0) {
               console.log(result.rows);
               return res.status(200).json(successResponse(result.rows, 'Berhasil'));
@@ -123,19 +119,16 @@ const recipeController = {
         try {
           const {id} = req.params
         
-          let post = {
-            id: id
-          }
-
-          let dataRecipe =  await getRecipeById(post)
+          let dataRecipe =  await getRecipeById(id)
           let users_id = req.payload.id
 
           if(users_id != dataRecipe.rows[0].users_id){
             return res.status(404).json(errorResponse('Ini bukan post anda', 404))
           }
 
-          const result = await delRecipeById(post);
+          const result = await delRecipeById(id);
           if (result.rowCount > 0) {
+            await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id)
             console.log(result.rows);
             return res.status(200).json(successResponse(result.rows, 'Berhasil'));
           } else {
@@ -186,10 +179,8 @@ const recipeController = {
         console.log('Control: Running search recipe')
         try {
           const {search} = req.query
-          let post = {
-            search: search
-          }
-          const result = await searchRecipe(post);
+
+          const result = await searchRecipe(search);
           if (result.rowCount > 0) {
             console.log(result.rows);
             return res.status(200).json(successResponse(result.rows, 'Berhasil'));
