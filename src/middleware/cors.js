@@ -3,10 +3,9 @@ const Cors = require('cors');
 
 // CORS configuration
 const corsOptions = {
-  origin: 'http://localhost',
-  methods: 'GET, POST, OPTIONS, PUT, DELETE',
-  allowedHeaders: 'Content-Type, Authorization',
-};
+  origin: '*',
+  optionsSuccessStatus: 200
+}
 
 const cors = Cors(corsOptions)
 
