@@ -187,8 +187,6 @@ const recipeController = {
           };
           const resultTotal = await getRecipe()
           const result = await sortRecipe(post);
-          console.log('ini total result')
-          console.log(resultTotal)
       
           let pagination = {
             totalPage: Math.ceil(resultTotal.rowCount / limiter),
