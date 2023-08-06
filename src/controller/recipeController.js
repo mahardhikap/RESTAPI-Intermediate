@@ -46,17 +46,30 @@ const recipeController = {
           let users_id =  req.payload.id
           console.log(users_id)
 
-          const result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
-          console.log(result_up)
+          // const result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
+          // console.log(result_up)
 
           let post = {
             title: title,
-            image: result_up.secure_url,
-            img_id: result_up.public_id,
+            // image: result_up.secure_url,
+            // img_id: result_up.public_id,
             ingredients: ingredients,
             category_id: category_id,
             users_id
           }
+
+          //setting untuk agar ketika tidak ada gambar diupload
+          if (req.file) {
+            const result_up = await cloudinary.uploader.upload(req.file.path, { folder: 'recipe' });
+            console.log(result_up);
+
+            post.image = result_up.secure_url;
+            post.img_id = result_up.public_id;
+          } else {
+            post.image = 'https://i.ibb.co/M2JSRmW/noimage.png';
+            post.img_id = 'no_image';
+          }
+
           const result = await postRecipe(post);
           if (result.rowCount > 0) {
               console.log(result.rows);
@@ -76,19 +89,38 @@ const recipeController = {
         const {id} = req.params
         const {title, ingredients, category_id} = req.body
 
-        let dataRecipe =  await getRecipeById(id)
-        let result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
-        if(result_up){
-          await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id)
+        let dataRecipe = await getRecipeById(id);
+        let result_up = null;
+
+        if (req.file) {
+            // Jika req.file ada, upload gambar baru dan delete gambar lama
+            result_up = await cloudinary.uploader.upload(req.file.path, { folder: 'recipe' });
+            await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id);
         }
+
+        // let dataRecipe =  await getRecipeById(id)
+        // let result_up = await cloudinary.uploader.upload(req.file.path, {folder:'recipe'})
+        // if(result_up){
+        //   await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id)
+        // }
 
         let post = {
           id: id,
           title: title,
-          image: result_up.secure_url,
-          img_id: result_up.public_id,
+          // image: result_up.secure_url,
+          // img_id: result_up.public_id,
           ingredients: ingredients,
           category_id: category_id
+        }
+
+        if (result_up) {
+          // Jika gambar baru diupload, update properti image
+            post.image = result_up.secure_url;
+            post.img_id = result_up.public_id;
+        } else {
+            // Jika tidak ada gambar baru diupload, ambil gambar yang masih ada
+            post.image = dataRecipe.rows[0].image;
+            post.img_id = dataRecipe.rows[0].img_id;
         }
 
         let users_id = req.payload.id
