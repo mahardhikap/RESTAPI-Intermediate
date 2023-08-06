@@ -177,20 +177,21 @@ const recipeController = {
         try {
           const { sortby, sort, limit } = req.query;
           let page = parseInt(req.query.page) || 1;
-          const limiter = parseInt(limit) || 5;
-          const offset = (page - 1) * limiter;
+          let limiter = limit || 5
       
           const post = {
             sortby: sortby || 'created_at',
             sort: sort || 'ASC',
-            limit: limiter,
-            offset: offset
+            limit: limit || 5,
+            offset: (page - 1) * limiter
           };
-      
+          const resultTotal = await getRecipe()
           const result = await sortRecipe(post);
+          console.log('ini total result')
+          console.log(resultTotal)
       
           let pagination = {
-            totalPage: Math.ceil(result.count / limiter),
+            totalPage: Math.ceil(resultTotal.rowCount / limiter),
             totalData: parseInt(result.count),
             pageNow: page
           };
