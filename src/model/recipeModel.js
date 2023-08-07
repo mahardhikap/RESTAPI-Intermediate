@@ -16,7 +16,7 @@ const getRecipe = async () => {
 const getRecipeById = async (id) => {
     return new Promise((resolve,reject)=>{
     console.log('Model: Get recipe by ID')
-        pool.query(`SELECT * FROM recipe WHERE id = ${id}`,(err,results)=>{
+        pool.query(`SELECT recipe.users_id, recipe.title, recipe.image, recipe.ingredients, recipe.img_id, recipe.created_at, category.name AS category, users.username FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE recipe.id = ${id}`, (err,results)=>{
             if(!err){
                 resolve(results)
             } else{
@@ -98,6 +98,19 @@ const searchRecipe = async (search) => {
     })
 }
 
+const getRecipeByUser = async (id) => {
+    return new Promise((resolve,reject)=>{
+    console.log('Model: Get recipe by ID')
+        pool.query(`SELECT recipe.title, recipe.image, recipe.ingredients, recipe.img_id, recipe.created_at, category.name AS category, users.username FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE recipe.users_id = ${id}`, (err,results)=>{
+            if(!err){
+                resolve(results)
+            } else{
+                reject(err)
+            }
+        })
+    })
+}
+
 module.exports = {
     getRecipe,
     getRecipeById,
@@ -105,5 +118,6 @@ module.exports = {
     putRecipeById,
     delRecipeById,
     sortRecipe,
-    searchRecipe
+    searchRecipe,
+    getRecipeByUser
 }

@@ -1,4 +1,4 @@
-const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe} = require('../model/recipeModel')
+const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe, getRecipeByUser} = require('../model/recipeModel')
 const {successResponse, errorResponse} = require('../helper/handler')
 const cloudinary = require('../config/cloudinary');
 
@@ -223,7 +223,24 @@ const recipeController = {
             console.error(`Error : ${error.message}`);
             return res.status(500).json(errorResponse('Ada kesalahan', 500));
         }
-      }
+      },
+      showRecipeByUser: async (req, res) => {
+        console.log('Control: Running get recipe by User')
+        try {
+          const {id} = req.params
+          const result = await getRecipeByUser(id);
+          if (result.rowCount > 0) {
+              console.log(result.rows);
+              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+          } else {
+              console.log('Data tidak ditemukan')
+              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+          }
+        } catch (error) {
+            console.error(`Error : ${error.message}`);
+            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+        }
+    }
 }
 
 module.exports = recipeController
