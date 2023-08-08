@@ -7,7 +7,7 @@ const users = require('./src/router/usersRouter')
 const category = require('./src/router/categoryRouter')
 const morgan = require('./src/middleware/morgan')
 const cors = require('./src/middleware/cors')
-const xssFilters = require('./src/middleware/xssFilters')
+// const xssFilters = require('./src/middleware/xssFilters')
 const helmet = require('./src/middleware/helmet')
 
 
@@ -26,10 +26,10 @@ app.get('/', (req, res) => {
     res.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.get('/', (req, res) => {
-    let firstname = req.query.firstname; //jika ada input aneh dari users
-    res.send('<h1> Hello, ' + xssFilters.inHTMLData(firstname) + '!</h1>');
-});
+// app.get('/', (req, res) => {
+//     let firstname = req.query.firstname; 
+//     res.send('<h1> Hello, ' + xssFilters.inHTMLData(firstname) + '!</h1>');
+// });
 
 app.use(recipe)
 app.use(users)
