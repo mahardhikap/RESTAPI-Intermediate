@@ -71,7 +71,7 @@ const sortRecipe = async (post) => {
     return new Promise((resolve, reject) => {
         console.log('Model: Sorting recipe')
         const { sortby, sort, offset, limit } = post
-        pool.query(`SELECT recipe.id, recipe.title, recipe.image, recipe.ingredients, category.name AS category, users.username, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`, (err, results) => {
+        pool.query(`SELECT recipe.id, recipe.users_id, recipe.title, recipe.image, recipe.ingredients, category.name AS category, users.username, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`, (err, results) => {
           if (!err) {
             const data = {
               count: results.rowCount, // Jumlah total data (total row count)
