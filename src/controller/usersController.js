@@ -146,7 +146,6 @@ const usersController = {
 
     let dataUsers = await getUsersById(id);
     let result_up = null;
-    console.log('ini untuk data user',dataUsers)
 
     if (req.file) {
         // Jika req.file ada, upload gambar baru dan delete gambar lama
@@ -172,7 +171,6 @@ const usersController = {
     }
 
     let users_id = req.payload.id
-    console.log('ini untuk req payload users id', users_id)
 
 
     // console.log(dataRecipe.rows[0].users_id)
