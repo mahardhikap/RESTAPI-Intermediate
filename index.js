@@ -19,7 +19,7 @@ app.use(
 )
 
 app.use(morgan)
-app.use(cors)
+// app.use(cors)
 app.use(helmet)
 
 app.get('/', (req, res) => {
