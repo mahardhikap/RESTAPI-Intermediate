@@ -29,8 +29,8 @@ const getUsersByEmail = async (email) => {
 const register = async (post) => {
     return new Promise((resolve, reject)=>{
         console.log('Model: Post/register users')
-        const {username, email, password, photo, roles} = post
-        pool.query(`INSERT INTO users (username, email, password, photo, roles) VALUES ('${username}', '${email}', '${password}','${photo}', '${roles}') RETURNING *`, (err, results)=>{
+        const {username, email, password, photo, roles, img_id} = post
+        pool.query(`INSERT INTO users (username, email, password, photo, roles, img_id) VALUES ('${username}', '${email}', '${password}','${photo}', '${roles}', '${img_id}') RETURNING *`, (err, results)=>{
             if(!err){
                 resolve(results)
             } else{
@@ -54,9 +54,38 @@ const delUserById = async (id) => {
 }
 
 
+const putUsersById = async (post) => {
+    return new Promise((resolve, reject)=>{
+        console.log('Model: Put users')
+        const {username, email, photo, password, img_id, id} = post
+        pool.query(`UPDATE users SET username = '${username}', email = '${email}', photo = '${photo}', password = '${password}', img_id = '${img_id}' WHERE id = ${id} RETURNING *`, (err, results)=>{
+            if(!err){
+                resolve(results)
+            } else{
+                reject(err)
+            }
+        })
+    })
+}
+
+const getUsersById = async (id) => {
+    return new Promise((resolve,reject)=>{
+    console.log('Model: Get users by ID')
+        pool.query(`SELECT * FROM users WHERE id = ${id}`, (err,results)=>{
+            if(!err){
+                resolve(results)
+            } else{
+                reject(err)
+            }
+        })
+    })
+}
+
 module.exports = {
     getUsers,
     getUsersByEmail,
     register,
-    delUserById
+    delUserById,
+    getUsersById,
+    putUsersById
 }
