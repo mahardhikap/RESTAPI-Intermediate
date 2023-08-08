@@ -108,4 +108,11 @@ To install this you need to configure database, for this I'm using PostgreSQL, y
 
 #### If you have question
 
-Chat personal on my discord, with username `anonimonsta`
+Chat personal on my telegram [Mahardhika Pratama](https://t.me/mahardhika_yk)
+
+## Authors
+
+- [@mahardhikap](https://www.github.com/mahardhikap)
+
+## 🔗 Links
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahardhikapratama)
