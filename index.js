@@ -7,7 +7,7 @@ const users = require('./src/router/usersRouter')
 const category = require('./src/router/categoryRouter')
 const morgan = require('./src/middleware/morgan')
 const cors = require('./src/middleware/cors')
-// const xssFilters = require('./src/middleware/xssFilters')
+// const xssFilters = require('./src/middleware/xssFilters')nodemon
 const helmet = require('./src/middleware/helmet')
 
 
