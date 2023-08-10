@@ -11,19 +11,19 @@ const usersController = {
       let users_roles = req.payload.roles
       console.log(users_roles)
       if(users_roles != 'admin'){
-        return res.status(405).json(errorResponse('Tidak diizinkan melihat, admin only', 405))
+        return res.status(405).json(errorResponse('Dont have permission, admin only', 405))
       }
         const result = await getUsers();
         if (result.rowCount > 0) {
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+            return res.status(200).json(successResponse(result.rows, 'Success'));
         } else {
             console.log('Data tidak ditemukan')
-            return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+            return res.status(404).json(errorResponse('Cant find data', 404));
          }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     registerUsers: async (req, res) => {
@@ -31,12 +31,12 @@ const usersController = {
         try {
           const {username, email, password, roles} = req.body
           if(!username || !email || !password){
-            return res.status(404).json(errorResponse('Username, email, password harus diisi', 404))
+            return res.status(404).json(errorResponse('Username, email, password must be filled', 404))
           }
 
           let user = await getUsersByEmail(email)
           if(user.rows[0]){
-            return res.status(404).json(errorResponse('Email sudah digunakan', 404))
+            return res.status(404).json(errorResponse('Email have been used, try other email!', 404))
           }
           let post = {
             username: username,
@@ -61,11 +61,11 @@ const usersController = {
           const result = await register(post);
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rowCount, 'Registrasi berhasil!'));
+              return res.status(200).json(successResponse(result.rowCount, 'Registration success!'));
           } 
         } catch(error) {
             console.error(error.message)
-            return res.status(500).json(errorResponse('Ada kesalahan', 500))
+            return res.status(500).json(errorResponse('Registration error', 500))
         }
     },
     login: async (req, res)=>{
@@ -74,23 +74,24 @@ const usersController = {
           console.log(email, password)
 
           if(!email || !password){
-              return res.status(404).json(errorResponse('Email dan password harus diisi', 404))
+              return res.status(404).json(errorResponse('Email and password must be filled', 404))
           }
 
           let data = await getUsersByEmail(email)
           // console.log(data.rows[0])
 
           if(!data.rows[0]){
-              return res.status(404).json(errorResponse('Email belum terdaftar', 404))
+              return res.status(404).json(errorResponse('Email not registered', 404))
           }
 
           let users = data.rows[0]
           console.log(users)
           const isPasswordMatch = await verifyPassword(password, users.password)
           if(isPasswordMatch){
+            delete users.password
             const token = generateToken(users)
             users.token = token
-            return res.status(200).json(successResponse(users.token, `Correct, ini token untuk akses ${users.email}`))
+            return res.status(200).json(successResponse(users, 'Login success!'))
           } else {
             return res.status(404).json(errorResponse('Incorrect', 404))
           }
@@ -105,20 +106,20 @@ const usersController = {
           const {id} = req.params
           let users_role = req.payload.roles
           if(users_role !== 'admin'){
-            return res.status(404).json(errorResponse('Anda tidak memiliki izin, admin only!', 404))
+            return res.status(404).json(errorResponse('Dont have permission, admin only!', 404))
           }
 
           const result = await delUserById(id);
           if (result.rowCount > 0) {
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+            return res.status(200).json(successResponse(result.rows, 'Success'));
           } else {
             console.log('Data tidak ditemukan')
-            return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+            return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     showUsersById: async (req, res) => {
@@ -128,14 +129,14 @@ const usersController = {
         const result = await getUsersById(id);
         if (result.rowCount > 0) {
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+            return res.status(200).json(successResponse(result.rows, 'Success'));
         } else {
             console.log('Data tidak ditemukan')
-            return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+            return res.status(404).json(errorResponse('Cant find data', 404));
         }
       } catch (error) {
           console.error(`Error : ${error.message}`);
-          return res.status(500).json(errorResponse('Ada kesalahan', 500));
+          return res.status(500).json(errorResponse('Something is wrong', 500));
       }
   },
   putUsersByIdOnly: async (req, res) => {
@@ -177,20 +178,20 @@ const usersController = {
     // console.log(users_id)
       
     if(users_id != dataUsers.rows[0].id){
-        return res.status(404).json(errorResponse('Ini bukan profil anda', 404))
+        return res.status(404).json(errorResponse('This not your profile, cant access', 404))
     }
 
     const result = await putUsersById(post);
       if (result.rowCount > 0) {
           console.log(result.rows);
-          return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+          return res.status(200).json(successResponse(result.rows, 'Success'));
       } else {
-          console.log('Data tidak ditemukan')
-          return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+          console.log('Cant find data')
+          return res.status(404).json(errorResponse('Cant find data', 404));
       }
     } catch (error) {
         console.error(error);
-        return res.status(500).json(errorResponse('Ada kesalahan', 500));
+        return res.status(500).json(errorResponse('Something is wrong', 500));
     }
 }
 }

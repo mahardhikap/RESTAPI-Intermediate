@@ -11,14 +11,14 @@ const recipeController = {
           const result = await getRecipe();
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     showRecipeById: async (req, res) => {
@@ -28,14 +28,14 @@ const recipeController = {
           const result = await getRecipeById(id);
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     postRecipeOnly: async (req, res) => {
@@ -73,14 +73,14 @@ const recipeController = {
           const result = await postRecipe(post);
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     putRecipeByIdOnly: async (req, res) => {
@@ -130,20 +130,20 @@ const recipeController = {
         // console.log(users_id)
           
         if(users_id != dataRecipe.rows[0].users_id){
-            return res.status(404).json(errorResponse('Ini bukan post anda', 404))
+            return res.status(404).json(errorResponse('This is not yout post!', 404))
         }
 
         const result = await putRecipeById(post);
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(error);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     delRecipeByIdOnly: async (req, res) => {
@@ -155,21 +155,21 @@ const recipeController = {
           let users_id = req.payload.id
 
           if(users_id != dataRecipe.rows[0].users_id){
-            return res.status(404).json(errorResponse('Ini bukan post anda', 404))
+            return res.status(404).json(errorResponse('This is not your post!', 404))
           }
 
           const result = await delRecipeById(id);
           if (result.rowCount > 0) {
             await cloudinary.uploader.destroy(dataRecipe.rows[0].img_id)
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+            return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
             console.log('Data tidak ditemukan')
-            return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+            return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     },
     sortedRecipe: async (req, res) => {
@@ -199,11 +199,11 @@ const recipeController = {
               return res.status(200).json(successResponse(result.rows, pagination));
           } else {
               console.log('Data tidak ditemukan');
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error: ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
       },
       searchedRecipe: async (req, res) => {
@@ -214,14 +214,14 @@ const recipeController = {
           const result = await searchRecipe(search);
           if (result.rowCount > 0) {
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+            return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
             console.log('Data tidak ditemukan')
-            return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+            return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
       },
       showRecipeByUser: async (req, res) => {
@@ -231,14 +231,14 @@ const recipeController = {
           const result = await getRecipeByUser(id);
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     }
 }

@@ -8,14 +8,14 @@ const categoryController = {
           const result = await getCategory();
           if (result.rowCount > 0) {
               console.log(result.rows);
-              return res.status(200).json(successResponse(result.rows, 'Berhasil'));
+              return res.status(200).json(successResponse(result.rows, 'Success!'));
           } else {
               console.log('Data tidak ditemukan')
-              return res.status(404).json(errorResponse('Data tidak ditemukan', 404));
+              return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
             console.error(`Error : ${error.message}`);
-            return res.status(500).json(errorResponse('Ada kesalahan', 500));
+            return res.status(500).json(errorResponse('Something is wrong', 500));
         }
     }
 }
