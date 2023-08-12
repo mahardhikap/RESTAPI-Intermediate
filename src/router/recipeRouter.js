@@ -13,7 +13,7 @@ router.get('/recipe/sorted', sortedRecipe)
 router.get('/recipe/searched', searchedRecipe)
 router.get('/recipe/id/:id', showRecipeById)
 router.get('/recipe/user/:id', showRecipeByUser)
-router.get('/recipe/user-sorted', sortedRecipeByUserOnly)
+router.get('/recipe/sorteduser/recipe', sortedRecipeByUserOnly)
 
 
 
