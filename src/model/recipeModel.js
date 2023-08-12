@@ -111,6 +111,25 @@ const getRecipeByUser = async (id) => {
     })
 }
 
+const sortRecipeByUser = async (post) => {
+    return new Promise((resolve, reject) => {
+        console.log('Model: Sorting recipe by users sort')
+        const { users_id, sortby, sort, offset, limit } = post
+        pool.query(`SELECT * FROM recipe WHERE users_id = ${users_id} ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`, (err, results) => {
+          if (!err) {
+            const data = {
+              count: results.rowCount, // Jumlah total data (total row count)
+              rows: results.rows // Data hasil query
+            }
+            resolve(data)
+            } else {
+            reject(err)
+            }
+        })
+    })
+}
+
+
 module.exports = {
     getRecipe,
     getRecipeById,
@@ -119,5 +138,6 @@ module.exports = {
     delRecipeById,
     sortRecipe,
     searchRecipe,
-    getRecipeByUser
+    getRecipeByUser,
+    sortRecipeByUser
 }

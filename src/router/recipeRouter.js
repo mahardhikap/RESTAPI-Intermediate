@@ -1,4 +1,4 @@
-const {showRecipeOnly, postRecipeOnly, putRecipeByIdOnly, delRecipeByIdOnly, sortedRecipe, searchedRecipe, showRecipeById, showRecipeByUser} = require('../controller/recipeController')
+const {showRecipeOnly, postRecipeOnly, putRecipeByIdOnly, delRecipeByIdOnly, sortedRecipe, searchedRecipe, showRecipeById, showRecipeByUser, sortedRecipeByUserOnly} = require('../controller/recipeController')
 const app = require('express')
 const router = app.Router()
 const {protect} = require('../middleware/jwt')
@@ -13,6 +13,7 @@ router.get('/recipe/sorted', sortedRecipe)
 router.get('/recipe/searched', searchedRecipe)
 router.get('/recipe/id/:id', showRecipeById)
 router.get('/recipe/user/:id', showRecipeByUser)
+router.get('/recipe/user-sorted', sortedRecipeByUserOnly)
 
 
 

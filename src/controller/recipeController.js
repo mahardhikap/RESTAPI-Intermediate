@@ -1,4 +1,4 @@
-const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe, getRecipeByUser} = require('../model/recipeModel')
+const {getRecipe, getRecipeById, postRecipe, putRecipeById, delRecipeById, sortRecipe, searchRecipe, getRecipeByUser, sortRecipeByUser} = require('../model/recipeModel')
 const {successResponse, errorResponse} = require('../helper/handler')
 const cloudinary = require('../config/cloudinary');
 
@@ -240,6 +240,41 @@ const recipeController = {
             console.error(`Error : ${error.message}`);
             return res.status(500).json(errorResponse('Something is wrong', 500));
         }
+    },
+    sortedRecipeByUserOnly: async (req, res) => {
+      console.log('Control: Running sort recipe by users only');
+      try {
+        const { users_id, sortby, sort, limit } = req.query;
+        let page = parseInt(req.query.page) || 1;
+        let limiter = limit || 5
+    
+        const post = {
+          sortby: sortby || 'created_at',
+          sort: sort || 'ASC',
+          limit: limit || 5,
+          offset: (page - 1) * limiter,
+          users_id: users_id
+        };
+        const resultTotal = await getRecipe()
+        const result = await sortRecipe(post);
+    
+        let pagination = {
+          totalPage: Math.ceil(resultTotal.rowCount / limiter),
+          totalData: parseInt(result.count),
+          pageNow: page
+        };
+    
+        if (result.rows.length > 0) {
+            console.log(result.rows);
+            return res.status(200).json(successResponse(result.rows, pagination));
+        } else {
+            console.log('Data tidak ditemukan');
+            return res.status(404).json(errorResponse('Cant find data', 404));
+        }
+      } catch (error) {
+          console.error(`Error: ${error.message}`);
+          return res.status(500).json(errorResponse('Something is wrong', 500));
+      }
     }
 }
 
