@@ -255,7 +255,7 @@ const recipeController = {
           offset: (page - 1) * limiter,
           users_id: users_id
         };
-        const resultTotal = await getRecipe()
+        const resultTotal = await getRecipeByUser(users_id)
         const result = await sortRecipeByUser(post);
     
         let pagination = {
