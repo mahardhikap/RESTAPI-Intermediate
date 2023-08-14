@@ -105,7 +105,7 @@ const searchRecipe = async (post) => {
     console.log('Model: Search recipe');
     const { searchby, search, sortby, sort, offset, limit } = post;
     pool.query(
-      `SELECT recipe.id, recipe.title, recipe.image, recipe.ingredients, category.name AS category, users.username, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE ${searchby} ILIKE '%${search}%'  ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
+      `SELECT recipe.id, recipe.title, recipe.image, recipe.ingredients, category.name AS category, users.username, users.photo, recipe.created_at FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE ${searchby} ILIKE '%${search}%'  ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
       (err, results) => {
         if (!err) {
           const data = {
