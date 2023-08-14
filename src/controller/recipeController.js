@@ -209,14 +209,30 @@ const recipeController = {
       searchedRecipe: async (req, res) => {
         console.log('Control: Running search recipe')
         try {
-          const {search} = req.query
+          const {searchby, search, sortby, sort, limit} = req.query
+          let page = parseInt(req.query.page) || 1;
+          let limiter = limit || 5
 
-          const result = await searchRecipe(search);
-          if (result.rowCount > 0) {
+          const post = {
+            sortby: sortby || 'created_at',
+            sort: sort || 'ASC',
+            limit: limit || 5,
+            offset: (page - 1) * limiter,
+            searchby: searchby || 'title',
+            search: search 
+          };
+          const resultTotal = await getRecipe()
+          const result = await searchRecipe(post);
+          let pagination = {
+            totalPage: Math.ceil(resultTotal.rowCount / limiter),
+            totalData: parseInt(result.count),
+            pageNow: page
+          };
+          if (result.rows.length > 0) {
             console.log(result.rows);
-            return res.status(200).json(successResponse(result.rows, 'Success!'));
+            return res.status(200).json(successResponse(result.rows, pagination));
           } else {
-            console.log('Data tidak ditemukan')
+            console.log('Data tidak ditemukan');
             return res.status(404).json(errorResponse('Cant find data', 404));
           }
         } catch (error) {
