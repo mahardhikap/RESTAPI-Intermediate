@@ -142,7 +142,7 @@ const sortRecipeByUser = async (post) => {
     console.log('Model: Sorting recipe by users sort');
     const { users_id, sortby, sort, offset, limit } = post;
     pool.query(
-      `SELECT * FROM recipe WHERE users_id = ${users_id} ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
+      `SELECT recipe.title, recipe.image, recipe.ingredients, recipe.img_id, recipe.created_at, category.name AS category, users.username FROM recipe JOIN category ON recipe.category_id = category.id JOIN users ON recipe.users_id = users.id WHERE users_id = ${users_id} ORDER BY ${sortby} ${sort} OFFSET ${offset} LIMIT ${limit}`,
       (err, results) => {
         if (!err) {
           const data = {
